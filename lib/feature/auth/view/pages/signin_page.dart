@@ -3,22 +3,20 @@ import 'package:riverpod_tutorial/core/theme/app_pallete.dart';
 import 'package:riverpod_tutorial/feature/auth/view/widgets/auth_gradient_button.dart';
 import 'package:riverpod_tutorial/feature/auth/view/widgets/custom_field.dart';
 
-class SignupPage extends StatefulWidget {
-  const SignupPage({super.key});
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<SignupPage> createState() => _SignupPageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _SignupPageState extends State<SignupPage> {
-  final nameController = TextEditingController();
+class _SignInPageState extends State<SignInPage> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    nameController.dispose();
     emailController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -35,10 +33,11 @@ class _SignupPageState extends State<SignupPage> {
           child: Column(
             mainAxisAlignment: .center,
             children: [
-              Text('Sign Up.', style: TextStyle(fontSize: 50, fontWeight: .bold)),
+              Text(
+                'Sign In.',
+                style: TextStyle(fontSize: 50, fontWeight: .bold),
+              ),
               SizedBox(height: 50),
-              CustomField(hintText: "Name", controller: nameController),
-              SizedBox(height: 15),
               CustomField(hintText: "Email", controller: emailController),
               SizedBox(height: 15),
               CustomField(
@@ -47,15 +46,15 @@ class _SignupPageState extends State<SignupPage> {
                 isObscureText: true,
               ),
               SizedBox(height: 20),
-              AuthGradientButton(buttonText: "Sign Up",onTap: () {},),
+              AuthGradientButton(buttonText: "Sign In", onTap: () {},),
               SizedBox(height: 20),
               RichText(
                 text: TextSpan(
-                  text: "Alreadly an user?",
+                  text: "Don't have an account? ",
                   style: Theme.of(context).textTheme.titleMedium,
                   children: [
                     TextSpan(
-                      text: ' Sign In',
+                      text: ' Sign Up',
                       style: TextStyle(
                         color: Pallete.gradient2,
                         fontWeight: .bold,
