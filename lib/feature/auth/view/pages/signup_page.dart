@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fpdart/fpdart.dart' show Left;
+import 'package:fpdart/fpdart.dart' show Right;
 import 'package:riverpod_tutorial/core/theme/app_pallete.dart';
+import 'package:riverpod_tutorial/feature/auth/repositories/auth_remote_repository.dart';
+import 'package:riverpod_tutorial/feature/auth/view/pages/signin_page.dart';
 import 'package:riverpod_tutorial/feature/auth/view/widgets/auth_gradient_button.dart';
 import 'package:riverpod_tutorial/feature/auth/view/widgets/custom_field.dart';
 
@@ -35,7 +39,10 @@ class _SignupPageState extends State<SignupPage> {
           child: Column(
             mainAxisAlignment: .center,
             children: [
-              Text('Sign Up.', style: TextStyle(fontSize: 50, fontWeight: .bold)),
+              Text(
+                'Sign Up.',
+                style: TextStyle(fontSize: 50, fontWeight: .bold),
+              ),
               SizedBox(height: 50),
               CustomField(hintText: "Name", controller: nameController),
               SizedBox(height: 15),
@@ -47,21 +54,44 @@ class _SignupPageState extends State<SignupPage> {
                 isObscureText: true,
               ),
               SizedBox(height: 20),
-              AuthGradientButton(buttonText: "Sign Up",onTap: () {},),
+              AuthGradientButton(
+                buttonText: "Sign Up",
+                onTap: () async {
+                 final res = await AuthRemoteRepository().signup(
+                    name: nameController.text,
+                    email: emailController.text,
+                    password: passwordController.text,
+                  );
+                  final val = switch (res) {
+                    Left( value: final l ) => l,
+                    Right(value: final r) => r.toString()  
+                  };
+                  print(val);
+                  
+                },
+              ),
               SizedBox(height: 20),
-              RichText(
-                text: TextSpan(
-                  text: "Alreadly an user?",
-                  style: Theme.of(context).textTheme.titleMedium,
-                  children: [
-                    TextSpan(
-                      text: ' Sign In',
-                      style: TextStyle(
-                        color: Pallete.gradient2,
-                        fontWeight: .bold,
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (contex) => SignInPage()),
+                  );
+                },
+                child: RichText(
+                  text: TextSpan(
+                    text: "Alreadly an user?",
+                    style: Theme.of(context).textTheme.titleMedium,
+                    children: [
+                      TextSpan(
+                        text: ' Sign In',
+                        style: TextStyle(
+                          color: Pallete.gradient2,
+                          fontWeight: .bold,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ],
